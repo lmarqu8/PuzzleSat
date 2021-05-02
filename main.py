@@ -6,6 +6,17 @@ import string
 
 db = string.ascii_lowercase + string.ascii_uppercase
 
+def nodes(arr):
+    nlist = []
+    size = len(arr)
+    for x in range(size):
+        for y in range(size):
+            nlist += [str(x)+str(y)]
+
+    return nlist
+
+
+
 
 def edgesWithStrings(arr):
     size = len(arr)
@@ -48,21 +59,16 @@ def graph2Sat(arr):
     numSpaces = size ** 2
 
 
-def variable(arr, contains):
+def variable(arr, nodes):
     variables = {}
-    for i in range(len(arr)):
-        variables[i] = {}
-        for j in range(len(arr[0])):
-            variables[i][j] = {}
-            for k in contains:
-                variables[i][j][k] = Bool(str(i) + str(j) + k)
 
-    for i in range(len(arr1)):
-        for j in range(len(arr1[0])):
-            for k in contains:
-                print(variables[i][j][k], " ", end='')
-            print()
-        print()
+    contains = getUniqueVar(arr)
+
+    for a in nodes:
+        variables[a] = {}
+        for b in contains:
+            variables[a][b] = Bool(a + b)
+
     return variables
 
 
@@ -106,7 +112,6 @@ def getUniqueVar(arr):
 
 if __name__ == '__main__':
     print(sys.version)
-    # 1 Convert graph to SAT
 
     m = 6
 
@@ -115,21 +120,6 @@ if __name__ == '__main__':
     arr1[2][0] = arr1[4][5] = 'b'
     arr1[1][4] = arr1[4][2] = 'c'
 
-    for i in range(len(arr1)):
-        for j in range(len(arr1[0])):
-            print(arr1[i][j], " ", end='')
-        print()
+    pprint.pprint(variable(arr1, nodes(arr1)))
 
-    print()
-
-    tp = edgesWithTuples(arr1)
-
-    pprint.pprint(tp)
-
-    """
-    for i in range(6):
-        for j in range(6):
-            print(str(i)+str(j)," ", tp[str(i)+str(j)])
-    """
-
-    # variable(arr1, getUniqueVar(arr1))
+    tp = edgesWithStrings(arr1)
