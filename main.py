@@ -6,16 +6,21 @@ import string
 
 db = string.ascii_lowercase + string.ascii_uppercase
 
+
 def nodes(arr):
     nlist = []
     size = len(arr)
     for x in range(size):
         for y in range(size):
-            nlist += [str(x)+str(y)]
+            nlist += [str(x) + str(y)]
 
     return nlist
 
 
+def revertStr2Int(val):
+    x = int(val[0])
+    y = int(val[1])
+    return x, y
 
 
 def edgesWithStrings(arr):
@@ -52,13 +57,6 @@ def edgesWithTuples(arr):
     return vertex
 
 
-def graph2Sat(arr):
-    size = len(arr)
-    contains = getUniqueVar(arr)
-    numPins = len(contains)
-    numSpaces = size ** 2
-
-
 def variable(arr, nodes):
     variables = {}
 
@@ -67,7 +65,12 @@ def variable(arr, nodes):
     for a in nodes:
         variables[a] = {}
         for b in contains:
-            variables[a][b] = Bool(a + b)
+            x, y = revertStr2Int(a)
+            if arr[x][y] == ".":
+                variables[a][b] = Bool(a + b)
+            elif arr[x][y] != "." and arr[x][y] == b:
+                variables[a][b] = Bool(a + arr[x][y])
+                break
 
     return variables
 
@@ -119,6 +122,8 @@ if __name__ == '__main__':
     arr1[1][0] = arr1[3][4] = 'a'
     arr1[2][0] = arr1[4][5] = 'b'
     arr1[1][4] = arr1[4][2] = 'c'
+
+    pprint.pprint((nodes(arr1)))
 
     pprint.pprint(variable(arr1, nodes(arr1)))
 
