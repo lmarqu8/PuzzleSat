@@ -7,7 +7,7 @@ import string
 db = string.ascii_lowercase + string.ascii_uppercase
 
 
-def edges(arr):
+def edgesWithStrings(arr):
     size = len(arr)
 
     vertex = {}
@@ -16,10 +16,27 @@ def edges(arr):
         for y in range(size):
             tempSet = []
             if x > 0: tempSet.append(str(x - 1) + str(y))
-            if y > 0: tempSet.append(str(x) + (str(y-1)))
-            if x < size-1: tempSet.append(str(x + 1) + str(y))
-            if y < size-1: tempSet.append(str(x) + str(y+1))
-            vertex[str(x)+str(y)] = tempSet
+            if y > 0: tempSet.append(str(x) + (str(y - 1)))
+            if x < size - 1: tempSet.append(str(x + 1) + str(y))
+            if y < size - 1: tempSet.append(str(x) + str(y + 1))
+            vertex[str(x) + str(y)] = tempSet
+
+    return vertex
+
+
+def edgesWithTuples(arr):
+    size = len(arr)
+
+    vertex = {}
+
+    for x in range(size):
+        for y in range(size):
+            tempSet = []
+            if x > 0: tempSet.append((x - 1, y))
+            if y > 0: tempSet.append((x, y - 1))
+            if x < size - 1: tempSet.append((x + 1, y))
+            if y < size - 1: tempSet.append((x, y + 1))
+            vertex[(x, y)] = tempSet
 
     return vertex
 
@@ -105,7 +122,7 @@ if __name__ == '__main__':
 
     print()
 
-    tp = edges(arr1)
+    tp = edgesWithTuples(arr1)
 
     pprint.pprint(tp)
 
@@ -115,5 +132,4 @@ if __name__ == '__main__':
             print(str(i)+str(j)," ", tp[str(i)+str(j)])
     """
 
-
-    #variable(arr1, getUniqueVar(arr1))
+    # variable(arr1, getUniqueVar(arr1))
